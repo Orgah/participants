@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block body %}
+<div class="content">
+    <div class="logo">
+        <img src="{{ logo }}" alt="CSA Logo" width="100px" height="100px">
+    </div>
+
+    {% if form_type == "participants" %}
+
+    <div class="box" id="heading">
+        <h1>Participants Info</h1>
+    </div>
+
+    <div class="box">
+        <form class="item" action="/submit" method="POST">
+        <table>
+            <tr><td>
+                <select name="program" required>
+                    {% for program in contents %}
+                    {% if program[0][:10] == date_today: %}
+                        <option value="{{ program[0] }}">{{ program[0] }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </td></tr>
+            <tr><td><input type="text" name="institution" placeholder="Enter Your Institution's Name" autofocus></td></tr>
+            <tr><td><input type="text" name="name" placeholder="Enter Your Name" required></td></tr>
+            <tr><td><input type="text" name="phone" placeholder="Enter Phone Number"required></td></tr>
+            <tr><td><input type="email" name="email" placeholder="Enter Your Email"></td></tr>
+            <tr><td><input type="submit" value="Register"></td></tr>
+        </table>
+        </form>
+    </div>
+    {% elif form_type == "key" %}
+
+    <div class="box" id="heading">
+        <h1>Authentication {{ message }}</h1>
+    </div>
+
+    <div class="box">
+        <form class="item" action="/submit_key" method="POST">
+        <table>
+            <tr><td><input type="password" name="your_safoa" placeholder="Enter Key" autofocus></td></tr>
+            <tr><td><input type="submit" value="Login"></td></tr>
+        </table>
+        </form>
+    </div>
+    {% else %}
+
+    <div class="box" id="heading">
+        <h1>Programs</h1>
+    </div>
+
+    <div class="box">
+        <form class="item" action="/add_program" method="POST">
+        <table>
+            <tr><td><input type="text" name="program" placeholder="Enter Program Name" autofocus></td></tr>
+            <tr><td><input type="date" name="date"></td></tr>
+            <tr><td><input type="submit" value="Add"></td></tr>
+        </table>
+        </form>
+    </div>
+    <div class="box">
+        <table>
+          <tr>
+              <th class="sn"><h3>S/N</h3></th>
+              <th><h3>Program Title</h3></th>
+          </tr>
+          
+          {% for program in contents %}
+              <tr>
+                  <td class="sn"><p>{{ loop.index }}</p></td>
+                  <td><p>{{ program[0] }}</p></td>
+              </tr>
+          {% endfor %}
+      </table>
+    </div>
+    <div class="box">
+        {% for file in dloads %}
+            <a href="{{ dloads_src[loop.index0] }}" download>{{ file }}</a><br>
+        {% endfor %}
+    </div>
+    <div class="box">
+        <form class="item" action="/" method="POST">
+        <table>
+            <tr><td><input type="submit" value="Done"></td></tr>
+        </table>
+        </form>
+    </div>
+    {% endif %}
+    
+</div>
+{% endblock %}
